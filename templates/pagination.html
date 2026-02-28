@@ -1,0 +1,15 @@
+{% macro render(paginator) %}
+    <div class="pagination">
+        <ul class="pagination-list">
+            {% for p in range(start=1, end=paginator.number_pagers + 1) %}
+            <li>
+                {% if loop.index == paginator.current_index %}
+                <span class="pagination-current">{{ loop.index }}</span>
+                {% else %}
+                <a href="{{ paginator.base_url ~ loop.index }}">{{ loop.index }}</a>
+                {% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endmacro render %}

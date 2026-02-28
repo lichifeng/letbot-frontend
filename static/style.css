@@ -1,0 +1,80 @@
+.main {
+    padding: 30px 15px;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.side {
+    padding: 15px;
+}
+
+.side h3 {
+    border-bottom: 2px solid #666;
+    margin: 20px 0 10px;
+}
+
+table {
+    width: 100%;
+}
+
+.side-footer {
+    margin-top: 40px;
+    text-align: center;
+    font-style: italic;
+    letter-spacing: 15%;
+    font-size: 0.9em;
+}
+
+.mock {
+    margin: 20px auto;
+    display: flex;
+    align-items: center;
+    max-width: 85%;
+    background-color: #e9edc9;
+    padding: 15px;
+    border-radius: 12px;
+}
+
+.mock img {
+    display: inline-block;
+    max-width: 80px;
+    margin: 0 15px 15px 0;
+}
+
+.pagination-list {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0;
+    margin: 40px 0 20px;
+    justify-content: center;
+}
+
+.pagination-list li {
+    margin: 0 5px;
+}
+
+.pagination-list span {
+    border: 1px solid #333;
+    padding: 3px 5px;
+    border-radius: 5px;
+}
+
+.post-list a {
+    display: block;
+    padding: 3px;
+}
+
+a:hover {
+    background-color: aliceblue;
+}
+
+.tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.tag-list a {
+    font-size: 0.9em;
+}

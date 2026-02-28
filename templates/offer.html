@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="title">
+  {{ page.title }}
+</h1>
+
+{% if page.extra.mock %}
+<cite class="mock">
+  <img src="/db.png" alt="doujie">
+  <div>
+    <strong>豆姐评论：</strong><br>
+    {{ page.extra.mock }}
+  </div>
+  
+</cite>
+{% endif %}
+
+{{ page.content | safe }}
+{% endblock content %}
+
+{% block side %}
+<a href="/">
+  <img src="/catlogo.png" alt="Logo" style="width:100%; height:auto;">
+</a>
+
+{% if page.extra.src %}
+<h3>🌐 原文链接</h3>
+<a href="{{ page.extra.src }}">{{ page.extra.raw_title }}</a>
+{% endif %}
+
+{% if page.taxonomies.tags %}
+<h3>#️⃣ 标签</h3>
+<div class="tag-list">
+  {% for t in page.taxonomies.tags %}
+  <a href="/tags/{{ t | lower }}" class="pseudo button"><strong>#</strong> {{ t }}</a>
+  {% endfor %}
+</div>
+{% endif %}
+
+{% if page.date %}
+<div class="side-footer">
+    最后更新：{{ page.date  | date | date(format="%Y/%m/%d")}}
+</div>
+{% endif %}
+
+{% endblock side %}

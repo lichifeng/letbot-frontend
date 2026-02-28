@@ -1,0 +1,31 @@
+{% import "pagination.html" as pagination %}
+
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="title">
+  #️⃣ {{ term.name }}
+</h1>
+
+<div class="post-list">
+{% for p in term.pages %}
+<a href="{{ p.permalink }}">{{ p.title }}</a>
+{% endfor %}
+</div>
+
+paginate_by: {{ taxonomy.paginate_by }}
+paginate_path: {{ taxonomy.paginate_path }}
+{% endblock content %}
+
+{% block side %}
+<a href="/">
+  <img src="/catlogo.png" alt="Logo" style="width:100%; height:auto;">
+</a>
+
+<p class="about">
+  当前标签下共有 {{ term.page_count }} 条内容。
+</p>
+<p>
+    #️⃣ <a href="/tags">点击查看所有标签</a>
+</p>
+{% endblock side %}
