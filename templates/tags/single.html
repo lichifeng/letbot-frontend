@@ -8,24 +8,25 @@
 </h1>
 
 <div class="post-list">
-{% for p in term.pages %}
-<a href="{{ p.permalink }}">{{ p.title }}</a>
-{% endfor %}
+  <ul class="title-list">
+    {% for p in paginator.pages %}
+    <li>
+      {% if p.date | date(format="%s") | int > now() | date(format="%s") | int - 432000 %}
+      <span class="badge-new">NEW</span>
+      {% endif %}
+      <a href="{{ p.permalink }}">{{ p.title }}</a>
+    </li>
+    {% endfor %}
 </div>
 
-paginate_by: {{ taxonomy.paginate_by }}
-paginate_path: {{ taxonomy.paginate_path }}
+{{ pagination::render(paginator=paginator) }}
 {% endblock content %}
 
 {% block side %}
-<a href="/">
-  <img src="/catlogo.png" alt="Logo" style="width:100%; height:auto;">
-</a>
-
-<p class="about">
-  当前标签下共有 {{ term.page_count }} 条内容。
+<p>
+  <code># {{ term.name }}</code> 标签下共有 <code>{{ term.page_count }}</code> 条内容。
 </p>
 <p>
-    #️⃣ <a href="/tags">点击查看所有标签</a>
+  #️⃣ <a href="/tags">查看所有标签</a>
 </p>
 {% endblock side %}

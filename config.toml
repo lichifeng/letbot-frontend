@@ -2,7 +2,7 @@
 base_url = "https://let.y2b.cc"
 
 # The site title and description; used in feeds by default.
-title = "LET情报站"
+title = "豆姐国外主机资讯"
 
 # The default language; used in feeds.
 default_language = "zh-cn"

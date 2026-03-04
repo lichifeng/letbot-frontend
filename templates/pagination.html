@@ -1,4 +1,5 @@
 {% macro render(paginator) %}
+    {% if paginator.number_pagers > 1 %}
     <div class="pagination">
         <ul class="pagination-list">
             {% for p in range(start=1, end=paginator.number_pagers + 1) %}
@@ -12,4 +13,5 @@
             {% endfor %}
         </ul>
     </div>
+    {% endif %}
 {% endmacro render %}

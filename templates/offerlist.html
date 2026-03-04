@@ -4,27 +4,30 @@
 
 {% block content %}
 <h1 class="title">
-  {{ section.title }}
+  🌠 {{ section.title }}
 </h1>
 
 <div class="post-list">
-{% for p in paginator.pages %}
-<a href="{{ p.permalink }}">{{ p.title }}</a>
-{% endfor %}
+  <ul class="title-list">
+    {% for p in paginator.pages %}
+    <li>
+      {% if p.date | date(format="%s") | int > now() | date(format="%s") | int - 432000 %}
+      <span class="badge-new">NEW</span>
+      {% endif %}
+      <a href="{{ p.permalink }}">{{ p.title }}</a>
+    </li>
+    {% endfor %}
+  </ul>
 </div>
 
 {{ pagination::render(paginator=paginator) }}
 {% endblock content %}
 
 {% block side %}
-<a href="/">
-  <img src="/catlogo.png" alt="Logo" style="width:100%; height:auto;">
-</a>
-
 <p class="about">
-  这里是<strong>『 LET情报站 』</strong>，一个由AI驱动的主机信息聚合网站。本站定时监控 <a href="lowendtalk.com">Lowendtalk</a> 上的促销信息，通过AI提取关键内容。这是一个公益网站，内容仅供参考，不构成购买建议。
+  <strong>『 豆姐国外主机资讯 』</strong>是一个由AI驱动的主机信息聚合网站。网站内容采集于互助网，仅供参考，不构成购买建议。
 </p>
-<p>
-  <img src="/wht-dumbest.png.webp" alt="meme" style="width:100%; height:auto;">
-</p>
+<div class="last-updated" title="页面生成：{{ now() | date(format=" %Y/%m/%d %H:%M") }}">
+  最后更新：{{ now() | date(format="%Y/%m/%d")}}
+</div>
 {% endblock side %}
