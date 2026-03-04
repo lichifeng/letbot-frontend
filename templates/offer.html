@@ -15,6 +15,15 @@
 </span>
 
 {{ page.content | safe }}
+
+<div class="offer-nav">
+  {% if page.higher %}
+  <a href="{{ page.higher.permalink }}"><span class="offer-nav-hint">旧</span> ⯇上一页</a>
+  {% endif %}
+  {% if page.lower %}
+  <a href="{{ page.lower.permalink }}">下一页⯈ <span class="offer-nav-hint">新</span></a>
+  {% endif %}
+</div>
 {% endblock content %}
 
 {% block side2 %}

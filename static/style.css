@@ -1,9 +1,16 @@
+/* 
+Main colors:
+#40513B
+#628141
+#E5D9B6
+*/
+
 body {
     background-color: #F8F9F5;
     background-image: url('bedge-grunge.png');
     background-repeat: repeat;
     color: #40513B;
-    font-family: "Arial", "Microsoft YaHei", "黑体", "宋体", sans-serif;
+    font-family: -apple-system, "Noto Sans", "Helvetica Neue", Helvetica, "Nimbus Sans L", Arial, "Liberation Sans", "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC", "Source Han Sans SC", "Source Han Sans CN", "Microsoft YaHei", "Wenquanyi Micro Hei", "WenQuanYi Zen Hei", "ST Heiti", SimHei, "WenQuanYi Zen Hei Sharp", sans-serif;
 }
 
 .main {
@@ -15,7 +22,7 @@ body {
 }
 
 .content {
-    letter-spacing: 1px;
+    letter-spacing: .8px;
 }
 
 .avatar {
@@ -24,22 +31,25 @@ body {
     margin: auto;
 }
 
-@media (min-width: 768px) {
-    .avatar {
-        border-radius: 25%;
-        max-width: 75%;
-        margin: 35px auto;
-    }
+.logo {
+    display: flex;
+    align-items: center;
+    margin: auto;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.logo-title {
+    border-bottom: 5px solid #E67E22;
+    color: #40513B;
+    font-size: 1.5em;
+    flex: 1;
+    margin: auto 15px;
+    text-align: center;
 }
 
 .only-desktop {
     display: none;
-}
-
-@media (min-width: 768px) {
-    .only-desktop {
-        display: block;
-    }
 }
 
 .only-mobile {
@@ -49,6 +59,16 @@ body {
 @media (min-width: 768px) {
     .only-mobile {
         display: none;
+    }
+
+    .avatar {
+        border-radius: 25%;
+        max-width: 75%;
+        margin: 35px auto;
+    }
+
+    .only-desktop {
+        display: block;
     }
 }
 
@@ -65,6 +85,13 @@ body {
 .side,
 .content {
     padding: 15px;
+}
+
+@media (max-width: 767px) {
+    .side,
+    .content {
+        padding: 0 10px;
+    }
 }
 
 .last-updated {
@@ -123,7 +150,16 @@ a:visited {
 }
 
 .pagination-list li {
-    margin: 0 15px;
+    font-size: 1.25em;
+    margin: 0 8px;
+    letter-spacing: normal;
+}
+
+@media (min-width: 768px) {
+    .pagination-list li {
+        margin: 0 5px;
+        font-size: inherit;
+    }
 }
 
 .pagination-current {
@@ -316,4 +352,52 @@ table a:hover {
     margin-right: 8px;
     height: 20px;
     line-height: 20px;
+}
+
+.offer-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 30px;
+}
+
+.offer-nav a {
+    flex: 1;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.offer-nav-hint {
+    font-size: 0.85em;
+    text-align: center;
+    margin: 0 15px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border: 1px solid #E5D9B6;
+    padding: 0 4px;
+    border-radius: 4px;
+}
+
+@media (max-width: 767px) {
+    .mjj-comment {
+        padding: 10px 0;
+    }
+
+    .mjj-comments {
+        padding: 10px 15px;
+    }
+
+    .comment-content {
+        line-height: 1.4;
+    }
+
+    .avatar {
+        max-width: 75px;
+    }
+
+    .title-list {
+        margin-top: 30px;
+    }
 }

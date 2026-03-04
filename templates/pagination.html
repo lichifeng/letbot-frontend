@@ -1,16 +1,75 @@
+{% macro pagination_link(paginator, i, current) %}
+    <li>
+    {% if i == current %}
+        <span class="pagination-current">{{ i }}</span>
+    {% else %}
+        <a href="{{ paginator.base_url ~ i }}">{{ i }}</a>
+    {% endif %}
+    </li>
+{% endmacro %}
+
 {% macro render(paginator) %}
-    {% if paginator.number_pagers > 1 %}
+    {# total pages and current index #}
+    {% set total = paginator.number_pagers %}
+    {% set current = paginator.current_index %}
+
+    {% if total > 1 %}
     <div class="pagination">
         <ul class="pagination-list">
-            {% for p in range(start=1, end=paginator.number_pagers + 1) %}
-            <li>
-                {% if loop.index == paginator.current_index %}
-                <span class="pagination-current">{{ loop.index }}</span>
-                {% else %}
-                <a href="{{ paginator.base_url ~ loop.index }}">{{ loop.index }}</a>
+            {% set prev = current - 1 %}
+            {% set next = current + 1 %}
+
+            {# previous link #}
+            {% if current > 1 %}
+                <li class="pagination-prev">
+                    <a href="{{ paginator.base_url ~ prev }}">⯇</a>
+                </li>
+            {% endif %}
+
+            {% if total <= 10 %}
+                {# straightforward all pages #}
+                {% for i in range(start=1, end=total + 1) %}
+                    {{ self::pagination_link(paginator=paginator, i=i, current=current) }}
+                {% endfor %}
+            {% else %}
+                {# first page always #}
+                {{ self::pagination_link(paginator=paginator, i=1, current=current) }}
+
+                {# determine neighbor window around current #}
+                {% set startPage = current - 1 %}
+                {% if startPage < 2 %}
+                    {% set startPage = 2 %}
                 {% endif %}
-            </li>
-            {% endfor %}
+                {% set endPage = current + 1 %}
+                {% if endPage > total - 1 %}
+                    {% set endPage = total - 1 %}
+                {% endif %}
+
+                {# left ellipsis if gap between first and startPage #}
+                {% if startPage > 2 %}
+                    <li><span class="pagination-ellipsis">&hellip;</span></li>
+                {% endif %}
+
+                {# render neighbor pages #}
+                {% for i in range(start=startPage, end=endPage + 1) %}
+                    {{ self::pagination_link(paginator=paginator, i=i, current=current) }}
+                {% endfor %}
+
+                {# right ellipsis if gap between endPage and last-1 #}
+                {% if endPage < total - 1 %}
+                    <li><span class="pagination-ellipsis">&hellip;</span></li>
+                {% endif %}
+
+                {# last page #}
+                {{ self::pagination_link(paginator=paginator, i=total, current=current) }}
+            {% endif %}
+
+            {# next link #}
+            {% if current < total %}
+                <li class="pagination-next">
+                    <a href="{{ paginator.base_url ~ next }}">⯈</a>
+                </li>
+            {% endif %}
         </ul>
     </div>
     {% endif %}
