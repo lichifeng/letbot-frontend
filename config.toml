@@ -3,6 +3,7 @@ base_url = "https://let.y2b.cc"
 
 # The site title and description; used in feeds by default.
 title = "豆姐国外主机资讯"
+description = "豆姐国外主机资讯是一个由AI驱动的主机信息聚合网站。"
 
 # The default language; used in feeds.
 default_language = "zh-cn"
@@ -14,7 +15,10 @@ compile_sass = true
 # When set to "true", the generated HTML files are minified.
 minify_html = true
 
-author = "let-bot"
+author = "ai"
+
+generate_feeds = true
+feed_limit = 100
 
 # When set to "false", Sitemap.xml is not generated
 generate_sitemap = true
@@ -25,3 +29,9 @@ generate_robots_txt = true
 taxonomies = [
     {name = "tags", paginate_by = 20},
 ]
+
+[markdown]
+render_emoji = true
+external_links_class = "external-link"
+external_links_target_blank = true
+external_links_no_follow = true

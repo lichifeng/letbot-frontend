@@ -155,6 +155,12 @@ a:visited {
     letter-spacing: normal;
 }
 
+.pagination-list li,
+.pagination-list a {
+    display: flex;
+    align-items: center;
+}
+
 @media (min-width: 768px) {
     .pagination-list li {
         margin: 0 5px;

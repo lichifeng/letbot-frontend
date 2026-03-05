@@ -5,7 +5,11 @@ page_template = "offer.html"
 
 sort_by = "date"
 
-title = "最新主机促销信息"
+title = "国外主机资讯"
 
 paginate_by = 20
+
+paginate_path = "p"
+
+insert_anchor_links = "heading"
 +++
