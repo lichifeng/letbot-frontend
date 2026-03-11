@@ -1,0 +1,58 @@
+name: Build and Deploy Zola Site
+
+on:
+  workflow_dispatch:
+    inputs:
+      remote_host:
+        description: '远程服务器地址'
+        required: true
+      remote_user:
+        description: 'SSH 用户名'
+        required: true
+        default: 'root'
+      remote_pass:
+        description: 'SSH 密码'
+        required: true
+      remote_target:
+        description: '部署目的地路径'
+        required: true
+        default: '~/github-action-test/'
+      webhook_url:
+        description: '任务结束后的 Webhook'
+        required: true
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 1. 安装并设置 Zola 环境
+      - name: Install Zola
+        uses: taiki-e/install-action@v2
+        with:
+          tool: zola
+
+      # 2. 构建站点
+      - name: Build Zola site
+        run: zola build
+
+      # 3. 将文件复制到远程服务器
+      - name: Copy files via SCP
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          # 使用传入的变量（明文）
+          host: ${{ github.event.inputs.remote_host }}
+          username: ${{ github.event.inputs.remote_user }}
+          target: ${{ github.event.inputs.remote_target }}
+          password: ${{ github.event.inputs.remote_pass }}
+          source: "public/*"
+          strip_components: 1
+
+      # 4. 访问 Webhook
+      - name: Trigger Webhook
+        run: |
+          curl -X POST ${{ github.event.inputs.webhook_url }} \
+          -H "Content-Type: application/json" \
+          -d '{"status": "success", "project": "zola-build"}'
