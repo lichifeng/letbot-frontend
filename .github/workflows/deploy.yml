@@ -20,6 +20,9 @@ on:
       webhook_url:
         description: '任务结束后的 Webhook'
         required: true
+      resumeUrl:
+        description: 'callback url'
+        required: true
 
 jobs:
   build-and-deploy:
@@ -55,4 +58,4 @@ jobs:
         run: |
           curl -X POST ${{ github.event.inputs.webhook_url }} \
           -H "Content-Type: application/json" \
-          -d '{"status": "success", "project": "zola-build"}'
+          -d '{"status": "success", "resume": "${{ github.event.inputs.resumeUrl }}"}'
