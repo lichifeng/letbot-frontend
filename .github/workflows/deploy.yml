@@ -17,9 +17,6 @@ on:
         description: '部署目的地路径'
         required: true
         default: '~/github-action-test/'
-      webhook_url:
-        description: '任务结束后的 Webhook'
-        required: true
       resumeUrl:
         description: 'callback url'
         required: false
@@ -41,11 +38,53 @@ jobs:
       - name: Build Zola site
         run: zola build
 
-      # 3. 将文件复制到远程服务器
-      - name: Copy files via SCP
+      # 3. 检查远程服务器是否有 unzip
+      - name: Check for unzip on remote
+        id: check_unzip
+        uses: appleboy/ssh-action@v1.0.3
+        continue-on-error: true
+        with:
+          host: ${{ github.event.inputs.remote_host }}
+          username: ${{ github.event.inputs.remote_user }}
+          password: ${{ github.event.inputs.remote_pass }}
+          script: command -v unzip > /dev/null 2>&1
+
+      # 4. 如果有 unzip：压缩文件
+      - name: Compress files
+        if: steps.check_unzip.outcome == 'success'
+        run: |
+          cd public
+          zip -r ../deploy.zip .
+          cd ..
+
+      # 5. 如果有 unzip：上传压缩包并解压
+      - name: Deploy via Zip (Unzip exists)
+        if: steps.check_unzip.outcome == 'success'
         uses: appleboy/scp-action@v0.1.7
         with:
-          # 使用传入的变量（明文）
+          host: ${{ github.event.inputs.remote_host }}
+          username: ${{ github.event.inputs.remote_user }}
+          password: ${{ github.event.inputs.remote_pass }}
+          source: "deploy.zip"
+          target: ${{ github.event.inputs.remote_target }}
+
+      - name: Extract and Cleanup
+        if: steps.check_unzip.outcome == 'success'
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ github.event.inputs.remote_host }}
+          username: ${{ github.event.inputs.remote_user }}
+          password: ${{ github.event.inputs.remote_pass }}
+          script: |
+            cd ${{ github.event.inputs.remote_target }}
+            unzip -o deploy.zip
+            rm deploy.zip
+
+      # 6. 如果没有 unzip：回退到原始 SCP 模式
+      - name: Copy files via SCP (Unzip missing)
+        if: steps.check_unzip.outcome != 'success'
+        uses: appleboy/scp-action@v0.1.7
+        with:
           host: ${{ github.event.inputs.remote_host }}
           username: ${{ github.event.inputs.remote_user }}
           target: ${{ github.event.inputs.remote_target }}
@@ -53,9 +92,14 @@ jobs:
           source: "public/*"
           strip_components: 1
 
-      # 4. 访问 Webhook
+      # 7. 访问 Webhook
       - name: Trigger Webhook
         run: |
-          curl -X POST ${{ github.event.inputs.webhook_url }} \
-          -H "Content-Type: application/json" \
-          -d '{"content": "${{ github.event.inputs.resumeUrl }}"}'
+          if [ -n "${{ github.event.inputs.resumeUrl }}" ]; then
+            echo "Resume URL detected. Sending callback..."
+            curl -X POST "${{ github.event.inputs.resumeUrl }}" \
+            -H "Content-Type: application/json" \
+            -d '{"status": "success", "event": "deploy_completed"}'
+          else
+            echo "No resume URL provided, skipping callback."
+          fi
