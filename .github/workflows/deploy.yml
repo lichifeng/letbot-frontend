@@ -22,7 +22,7 @@ on:
         required: true
       resumeUrl:
         description: 'callback url'
-        required: true
+        required: false
 
 jobs:
   build-and-deploy:
@@ -58,4 +58,4 @@ jobs:
         run: |
           curl -X POST ${{ github.event.inputs.webhook_url }} \
           -H "Content-Type: application/json" \
-          -d '{"status": "success", "resume": "${{ github.event.inputs.resumeUrl }}"}'
+          -d '{"content": "${{ github.event.inputs.resumeUrl }}"}'
