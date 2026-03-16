@@ -21,6 +21,10 @@ body {
     margin: 20px 0;
 }
 
+.bold-text {
+    font-weight: bold;
+}
+
 .main {
     padding: 30px 0;
     max-width: 1200px;
