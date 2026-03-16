@@ -7,7 +7,7 @@ sort_by = "date"
 
 title = "国外主机资讯"
 
-paginate_by = 20
+paginate_by = 25
 
 paginate_path = "p"
 
