@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.bootcdn.net/ajax/libs/pure/3.0.0/pure-min.css" rel="stylesheet">
     <link href="https://cdn.bootcdn.net/ajax/libs/pure/3.0.0/grids-responsive-min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/style.css?v={{ get_random(start=10000, end=99999) }}">
+    <link rel="stylesheet" href="{{ get_url(path='style.css', cachebust=true) }}">
     <title>{{ config.title }}</title>
 </head>
 
@@ -39,7 +39,7 @@
 <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "7cb768824eff4d8ab70dd33b58e439ea"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
 
-<!-- Generated: {{ now() | date(format="%Y/%m/%d %H:%M") }} -->
+<!-- Generated: {{ now() | date(format="%Y/%m/%d %H:%M") | safe }} -->
 <!-- Version: s5LsMh8Iz53NFRQM -->
 
 </html>
