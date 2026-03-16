@@ -94,12 +94,15 @@ jobs:
 
       # 7. 访问 Webhook
       - name: Trigger Webhook
+        if: always() # 强制该步骤始终运行
         run: |
           if [ -n "${{ github.event.inputs.resumeUrl }}" ]; then
-            echo "Resume URL detected. Sending callback..."
+            echo "Resume URL detected. Sending callback with status: ${{ job.status }}"
+            
+            # 使用 job.status 获取任务状态 (success, failure, or cancelled)
             curl -X POST "${{ github.event.inputs.resumeUrl }}" \
             -H "Content-Type: application/json" \
-            -d '{"status": "success", "event": "deploy_completed"}'
+            -d "{\"status\": \"${{ job.status }}\", \"event\": \"deploy_completed\"}"
           else
             echo "No resume URL provided, skipping callback."
           fi
